@@ -20,11 +20,6 @@ from requests_toolbelt import MultipartEncoder
 # Turn off InsecureRequestWarning
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-try:
-    from moviepy.editor import VideoFileClip
-except ImportError:
-    print("Fail to import moviepy. Need only for Video upload.")
     
 
 # The urllib library was split into other modules from Python 2 to Python 3
@@ -110,7 +105,7 @@ class InstagramAPI:
                     self.timelineFeed()
                     self.getv2Inbox()
                     self.getRecentActivity()
-                    print("Login success!\n")
+                    print("Login successful!\n")
                     return True
 
     def syncFeatures(self):
@@ -379,7 +374,7 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         else:
-            print("Request return " + str(response.status_code) + " error!")
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!")
             # for debugging
             try:
                 self.LastResponse = response
@@ -435,7 +430,7 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         else:
-            print ("Request return " + str(response.status_code) + " error!")
+            print ("Sorry! Something went wrong, please make sure you've entered the correct information!")
             # for debugging
             try:
                 self.LastResponse = response
@@ -492,7 +487,7 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         else:
-            print("Request return " + str(response.status_code) + " error!")
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!")
             # for debugging
             try:
                 self.LastResponse = response
@@ -974,12 +969,11 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         else:
-            print("Request return " + str(response.status_code) + " error!")
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!")
             # for debugging
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
-                print(self.LastJson)
                 if 'error_type' in self.LastJson and self.LastJson['error_type'] == 'sentry_block':
                     raise SentryBlockException(self.LastJson['message'])
             except SentryBlockException:
