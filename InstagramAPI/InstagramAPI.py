@@ -20,7 +20,13 @@ from requests_toolbelt import MultipartEncoder
 # Turn off InsecureRequestWarning
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-    
+def clear():
+    if os.name in ('nt','dos'):
+        os.system("cls")
+    elif os.name in ('linux','osx','posix'):
+        os.system("clear")
+    else:
+        print("\n") * 120 
 
 # The urllib library was split into other modules from Python 2 to Python 3
 if sys.version_info.major == 3:
@@ -375,7 +381,9 @@ class InstagramAPI:
             return True
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!")
-            # for debugging
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            time.sleep(5)
+            clear()
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -431,7 +439,9 @@ class InstagramAPI:
             return True
         else:
             print ("Sorry! Something went wrong, please make sure you've entered the correct information!")
-            # for debugging
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            time.sleep(5)
+            clear()
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -488,14 +498,17 @@ class InstagramAPI:
             return True
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!")
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
             # for debugging
+            time.sleep(5)
+            clear()
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
             except:
                 pass
             return False
-
+            
     def configureVideo(self, upload_id, video, thumbnail, caption=''):
         clip = VideoFileClip(video)
         self.uploadPhoto(photo=thumbnail, caption=caption, upload_id=upload_id)
@@ -970,11 +983,15 @@ class InstagramAPI:
             return True
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!")
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            time.sleep(5)
+            clear()
             # for debugging
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
                 if 'error_type' in self.LastJson and self.LastJson['error_type'] == 'sentry_block':
+                    print('Your account/IP might be banned')
                     raise SentryBlockException(self.LastJson['message'])
             except SentryBlockException:
                 raise
