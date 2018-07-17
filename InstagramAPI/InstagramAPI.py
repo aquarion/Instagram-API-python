@@ -379,9 +379,11 @@ class InstagramAPI:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
             return True
+        elif response.status_code == 429:
+            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!")
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
             try:
@@ -437,9 +439,11 @@ class InstagramAPI:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
             return True
+        elif response.status_code == 429:
+            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
-            print ("Sorry! Something went wrong, please make sure you've entered the correct information!")
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
             try:
@@ -496,10 +500,11 @@ class InstagramAPI:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
             return True
+        elif response.status_code == 429:
+            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!")
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
-            # for debugging
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
             try:
@@ -981,9 +986,11 @@ class InstagramAPI:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
             return True
+        elif response.status_code == 429:
+            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!")
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
             # for debugging
