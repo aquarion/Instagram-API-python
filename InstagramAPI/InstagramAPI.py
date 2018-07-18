@@ -84,7 +84,8 @@ class InstagramAPI:
         """
 
         if proxy is not None:
-            print('Set proxy!')
+            print('Proxy has been set!' + '\n')
+            print('Testing proxy...' + '\n')
             proxies = {'http': proxy, 'https': proxy}
             self.s.proxies.update(proxies)
 
@@ -380,7 +381,7 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
@@ -440,7 +441,7 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
@@ -501,7 +502,7 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
@@ -978,16 +979,24 @@ class InstagramAPI:
                 else:
                     response = self.s.get(self.API_URL + endpoint, verify=verify)
                 break
-            except Exception as e:
-                print('Except on SendRequest (wait 60 sec and resend): ' + str(e))
+            except Exception:
+                print('Failed to establish a new connection: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 60 sec and retrying): ' + '\n')
                 time.sleep(60)
+                try:
+                    if (post is not None):
+                        response = self.s.post(self.API_URL + endpoint, data=post, verify=verify)
+                    else:
+                        response = self.s.get(self.API_URL + endpoint, verify=verify)
+                    break
+            except Exception:
+               raise Exception('Incorrect Proxy')
 
         if response.status_code == 200:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message]If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
         else:
             print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
