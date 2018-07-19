@@ -40,7 +40,10 @@ except:
 from .exceptions import SentryBlockException
 
 class Incorrect_Input(Exception):
-    pass
+    clear()
+    
+class Bad_Proxy(Exception):
+    clear()
 
 class InstagramAPI:
     API_URL = 'https://i.instagram.com/api/v1/'
@@ -994,7 +997,7 @@ class InstagramAPI:
                         response = self.s.get(self.API_URL + endpoint, verify=verify)
                     break
                 except Exception:
-                    raise Exception('Incorrect Proxy')
+                    raise Bad_Proxy('Incorrect Proxy')
 
         if response.status_code == 200:
             self.LastResponse = response
