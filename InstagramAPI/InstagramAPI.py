@@ -40,10 +40,10 @@ except:
 from .exceptions import SentryBlockException
 
 class Incorrect_Input(Exception):
-    clear()
+    pass
     
 class Bad_Proxy(Exception):
-    clear()
+    pass
 
 class InstagramAPI:
     API_URL = 'https://i.instagram.com/api/v1/'
