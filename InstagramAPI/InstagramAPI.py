@@ -39,6 +39,8 @@ except:
 
 from .exceptions import SentryBlockException
 
+class Incorrect_Input(Exception):
+    pass
 
 class InstagramAPI:
     API_URL = 'https://i.instagram.com/api/v1/'
@@ -387,6 +389,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
+            raise Incorrect_Input('Wrong user Input')
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -447,6 +450,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
+            raise Incorrect_Input('Wrong user Input')
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -508,6 +512,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
+            raise Incorrect_Input('Wrong user Input')
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -1002,6 +1007,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
+            raise Incorrect_Input('Wrong user Input')
             # for debugging
             try:
                 self.LastResponse = response
