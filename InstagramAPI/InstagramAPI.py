@@ -988,8 +988,8 @@ class InstagramAPI:
                     else:
                         response = self.s.get(self.API_URL + endpoint, verify=verify)
                     break
-            except Exception:
-               raise Exception('Incorrect Proxy')
+                except Exception:
+                    raise Exception('Incorrect Proxy')
 
         if response.status_code == 200:
             self.LastResponse = response
