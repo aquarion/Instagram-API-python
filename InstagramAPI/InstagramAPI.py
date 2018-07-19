@@ -39,12 +39,6 @@ except:
 
 from .exceptions import SentryBlockException
 
-class Incorrect_Input(Exception):
-    pass
-    
-class Bad_Proxy(Exception):
-    pass
-
 class InstagramAPI:
     API_URL = 'https://i.instagram.com/api/v1/'
     DEVICE_SETTINTS = {'manufacturer': 'Xiaomi',
@@ -392,7 +386,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
-            raise Incorrect_Input('Wrong user Input')
+            raise Exception('Wrong user Input')
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -453,7 +447,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
-            raise Incorrect_Input('Wrong user Input')
+            raise Exception('Wrong user Input')
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -515,7 +509,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
-            raise Incorrect_Input('Wrong user Input')
+            raise Exception('Wrong user Input')
             try:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
@@ -997,7 +991,7 @@ class InstagramAPI:
                         response = self.s.get(self.API_URL + endpoint, verify=verify)
                     break
                 except Exception:
-                    raise Bad_Proxy('Incorrect Proxy')
+                    raise Exception('Incorrect Proxy')
 
         if response.status_code == 200:
             self.LastResponse = response
@@ -1010,7 +1004,7 @@ class InstagramAPI:
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
             time.sleep(5)
             clear()
-            raise Incorrect_Input('Wrong user Input')
+            raise Exception('Wrong user Input')
             # for debugging
             try:
                 self.LastResponse = response
