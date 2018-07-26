@@ -116,7 +116,7 @@ class InstagramAPI:
                     self.timelineFeed()
                     self.getv2Inbox()
                     self.getRecentActivity()
-                    print(Style.BRIGHT + Fore.GREEN + "Login successful!\n\n\n" + Style.RESET_ALL)
+                    print(Style.BRIGHT + Fore.GREEN + "Login successful!\n\n" + Style.RESET_ALL)
                     return True
 
     def syncFeatures(self):
