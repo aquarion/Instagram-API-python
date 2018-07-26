@@ -13,4 +13,5 @@ setup(
     install_requires=[
         "requests==2.11.1",
         "requests-toolbelt==0.7.0",
+        "colorama==0.3.9",
     ])
