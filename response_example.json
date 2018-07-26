@@ -104,5 +104,67 @@
     "caption_is_edited":false,
     "photo_of_you":false
     }
-  ]
+  ],
+  "two_factor_fail_example": {
+    "message": "",
+    "two_factor_required": true,
+    "two_factor_info": {
+        "username": "hosico_cat",
+        "obfuscated_phone_number": "0000",
+        "two_factor_identifier": "O22u7XyjeO",
+        "show_messenger_code_option": false,
+        "phone_verification_settings": {
+            "max_sms_count": 2,
+            "resend_sms_delay_sec": 60,
+            "robocall_after_max_sms": true,
+            "robocall_count_down_time_sec": 30
+        }
+    },
+    "phone_verification_settings": {
+        "max_sms_count": 2,
+        "resend_sms_delay_sec": 60,
+        "robocall_after_max_sms": true,
+        "robocall_count_down_time_sec": 30
+    },
+    "status": "fail"
+  },
+  "two_factor_request_example": {
+    "verification_code":"374000",
+    "_csrftoken":"ECCPzlkA14iMLN55ZtJ3BhpAx0X00XxX",
+    "two_factor_identifier":"UI73Yx0X00",
+    "username":"hosico_cat",
+    "_uid":1733371297,
+    "guid":"73852xxx-x000-x00x-0x0x-7b1bx0X00XxX",
+    "device_id":"android-1872b31dx0X00XxX",
+    "_uuid":"73852xxx-x000-x00x-0x0x-7b1bx0X00XxX"
+  },
+  "two_factor_response_example": {
+    "logged_in_user": {
+        "allow_contacts_sync": false,
+        "allowed_commenter_type": "any",
+        "can_see_organic_insights": false,
+        "country_code": 56,
+        "fbuid": "17848359943090570",
+        "full_name": "Hosico Cat \ud83d\udca0",
+        "has_anonymous_profile_picture": false,
+        "is_business": false,
+        "is_private": false,
+        "is_verified": true,
+        "nametag": {
+            "emoji": "😀",
+            "gradient": 0,
+            "mode": 0,
+            "selfie_sticker": 0
+        },
+        "national_number": 934810000,
+        "phone_number": "+56934810000",
+        "pk": 1733371297,
+        "profile_pic_id": "1266491991547726373_1733371297",
+        "profile_pic_url": "http://scontent.cdninstagram.com/t51.2885-19/11008076_933721613312233_2134339792_a.jpg",
+        "reel_auto_archive": "on",
+        "show_insights_terms": false,
+        "username": "hosico_cat"
+    },
+    "status": "ok"
+  }
 }
