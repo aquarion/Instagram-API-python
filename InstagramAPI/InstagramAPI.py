@@ -115,7 +115,7 @@ class InstagramAPI:
                     self.timelineFeed()
                     self.getv2Inbox()
                     self.getRecentActivity()
-                    print("Login successful!\n")
+                    print(Style.BRIGHT + Fore.GREEN + "Login successful!\n" + Style.RESET_ALL)
                     return True
 
     def syncFeatures(self):
@@ -1014,7 +1014,7 @@ class InstagramAPI:
                 self.LastResponse = response
                 self.LastJson = json.loads(response.text)
                 if 'error_type' in self.LastJson and self.LastJson['error_type'] == 'sentry_block':
-                    print('Your account/IP might be banned')
+                    print(Style.BRIGHT + Fore.RED + '[Error]: Your account/IP might be banned' + Style.RESET_ALL)
                     raise SentryBlockException(self.LastJson['message'])
             except SentryBlockException:
                 raise
