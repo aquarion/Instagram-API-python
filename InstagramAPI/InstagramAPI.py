@@ -16,6 +16,10 @@ from datetime import datetime
 import calendar
 import os
 from requests_toolbelt import MultipartEncoder
+from colorama import Fore, init, Style
+
+# Init the colorama colours
+init()
 
 # Turn off InsecureRequestWarning
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -83,8 +87,8 @@ class InstagramAPI:
         """
 
         if proxy is not None:
-            print('Proxy has been set!' + '\n')
-            print('Testing proxy...' + '\n')
+            print(Style.BRIGHT + Fore.GREEN + 'Proxy has been set!' + Style.RESET_ALL + '\n')
+            print(Style.BRIGHT + Fore.GREEN + 'Testing proxy...' + Style.RESET_ALL +'\n')
             proxies = {'http': proxy, 'https': proxy}
             self.s.proxies.update(proxies)
 
@@ -380,10 +384,10 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
+            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
             time.sleep(5)
             clear()
             raise Exception('Wrong user Input')
@@ -441,10 +445,10 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
+            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
             time.sleep(5)
             clear()
             raise Exception('Wrong user Input')
@@ -503,10 +507,10 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
+            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
             time.sleep(5)
             clear()
             raise Exception('Wrong user Input')
@@ -982,7 +986,7 @@ class InstagramAPI:
                     response = self.s.get(self.API_URL + endpoint, verify=verify)
                 break
             except Exception:
-                print('Failed to establish a new connection: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 60 sec and retrying): ' + '\n')
+                print(Style.BRIGHT + Fore.RED + 'Failed to establish a new connection: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 60 sec and retrying): ' + Style.RESET_ALL + '\n')
                 time.sleep(60)
                 try:
                     if (post is not None):
@@ -998,10 +1002,10 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + "\n") 
+            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
         else:
-            print("Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + '\n')
+            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
             time.sleep(5)
             clear()
             raise Exception('Wrong user Input')
