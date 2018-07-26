@@ -88,7 +88,7 @@ class InstagramAPI:
 
         if proxy is not None:
             print(Style.BRIGHT + Fore.GREEN + 'Proxy has been set!' + Style.RESET_ALL + '\n')
-            print(Style.BRIGHT + Fore.GREEN + 'Testing proxy...' + Style.RESET_ALL +'\n')
+            print(Style.BRIGHT + Fore.GREEN + 'Testing proxy...' + Style.RESET_ALL + '\n'*3)
             proxies = {'http': proxy, 'https': proxy}
             self.s.proxies.update(proxies)
 
@@ -115,7 +115,7 @@ class InstagramAPI:
                     self.timelineFeed()
                     self.getv2Inbox()
                     self.getRecentActivity()
-                    print(Style.BRIGHT + Fore.GREEN + "Login successful!\n" + Style.RESET_ALL)
+                    print(Style.BRIGHT + Fore.GREEN + "Login successful!\n\n\n" + Style.RESET_ALL)
                     return True
 
     def syncFeatures(self):
