@@ -1026,7 +1026,7 @@ class InstagramAPI:
             return False
         
         elif response.status_code == 429:
-            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
+            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n"*3) 
             return False
         
         else:
@@ -1044,6 +1044,7 @@ class InstagramAPI:
             except:
                 pass
             return False
+        
     def sendTwoFactorCode(self, code):
         data = {
             "verification_code": code,
@@ -1054,8 +1055,7 @@ class InstagramAPI:
             "device_id": self.device_id,
             "_uuid": self.uuid
         }
-        self.two_factor = self.SendRequest('accounts/two_factor_login/', self.generateSignature(json.dumps(data)), True)
-        self.login()    
+        self.two_factor = self.SendRequest('accounts/two_factor_login/', self.generateSignature(json.dumps(data)), True)   
 
     def getTotalFollowers(self, usernameId):
         followers = []
