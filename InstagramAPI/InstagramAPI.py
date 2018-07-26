@@ -71,6 +71,7 @@ class InstagramAPI:
         self.device_id = self.generateDeviceId(m.hexdigest())
         self.setUser(username, password)
         self.isLoggedIn = False
+        self.two_factor = False
         self.LastResponse = None
         self.s = requests.Session()
 
@@ -94,7 +95,7 @@ class InstagramAPI:
 
     def login(self, force=False):
         if (not self.isLoggedIn or force):
-            if (self.SendRequest('si/fetch_headers/?challenge_type=signup&guid=' + self.generateUUID(False), None, True)):
+            if (self.two_factor or self.SendRequest('si/fetch_headers/?challenge_type=signup&guid=' + self.generateUUID(False), None, True)):
 
                 data = {'phone_id': self.generateUUID(True),
                         '_csrftoken': self.LastResponse.cookies['csrftoken'],
@@ -104,7 +105,7 @@ class InstagramAPI:
                         'password': self.password,
                         'login_attempt_count': '0'}
 
-                if (self.SendRequest('accounts/login/', self.generateSignature(json.dumps(data)), True)):
+                if (self.two_factor or self.SendRequest('accounts/login/', self.generateSignature(json.dumps(data)), True)):
                     self.isLoggedIn = True
                     self.username_id = self.LastJson["logged_in_user"]["pk"]
                     self.rank_token = "%s_%s" % (self.username_id, self.uuid)
@@ -997,22 +998,41 @@ class InstagramAPI:
                 except Exception:
                     raise Exception('Incorrect Proxy')
 
-        if response.status_code == 200:
+        try:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
-            return True
+
+        except Exception:
+            pass
+            # for debugging
+        if response.status_code == 200:
+             return True
+            
+        elif (response.status_code == 500):
+            response.raise_for_status()
+            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
+            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
+            return False
+        
+        elif (response.status_code == 400) and ("two_factor_required" in self.LastJson) and (self.LastJson["two_factor_required"] == True):
+            print(Style.BRIGHT + Fore.RED + "[Warning message] Two Factor in enabled. Sms code needed" + Style.RESET_ALL + '\n')
+            return False
+        
+        elif (response.status_code == 400) and ("error_type" in self.LastJson) and (self.LastJson['error_type'] == 'sms_code_validation_code_invalid'):
+            print(Style.BRIGHT + Fore.RED + "[Error] Something went wrong with the 2FA verification, did you input the correct code?" + Style.RESET_ALL + '\n')
+            return False
+        
         elif response.status_code == 429:
             print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
+            return False
+        
         else:
             print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
             time.sleep(5)
             clear()
             raise Exception('Wrong user Input')
-            # for debugging
             try:
-                self.LastResponse = response
-                self.LastJson = json.loads(response.text)
                 if 'error_type' in self.LastJson and self.LastJson['error_type'] == 'sentry_block':
                     print(Style.BRIGHT + Fore.RED + '[Error]: Your account/IP might be banned' + Style.RESET_ALL)
                     raise SentryBlockException(self.LastJson['message'])
@@ -1021,6 +1041,18 @@ class InstagramAPI:
             except:
                 pass
             return False
+    def sendTwoFactorCode(self, code):
+        data = {
+            "verification_code": code,
+            "_csrftoken": self.LastResponse.cookies['csrftoken'],
+            "two_factor_identifier": self.LastJson['two_factor_info']['two_factor_identifier'],
+            "username": self.username,
+            "guid": self.uuid,
+            "device_id": self.device_id,
+            "_uuid": self.uuid
+        }
+        self.two_factor = self.SendRequest('accounts/two_factor_login/', self.generateSignature(json.dumps(data)), True)
+        self.login()    
 
     def getTotalFollowers(self, usernameId):
         followers = []
