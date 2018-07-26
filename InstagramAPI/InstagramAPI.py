@@ -1012,14 +1012,17 @@ class InstagramAPI:
             response.raise_for_status()
             print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
             print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
+            raise Exception('Wrong user Input')
             return False
         
         elif (response.status_code == 400) and ("two_factor_required" in self.LastJson) and (self.LastJson["two_factor_required"] == True):
             print(Style.BRIGHT + Fore.RED + "[Warning message] Two Factor in enabled. Sms code needed" + Style.RESET_ALL + '\n')
+            raise Exception('2FA Code required')
             return False
         
         elif (response.status_code == 400) and ("error_type" in self.LastJson) and (self.LastJson['error_type'] == 'sms_code_validation_code_invalid'):
             print(Style.BRIGHT + Fore.RED + "[Error] Something went wrong with the 2FA verification, did you input the correct code?" + Style.RESET_ALL + '\n')
+            raise Exception('Wrong Code')
             return False
         
         elif response.status_code == 429:
