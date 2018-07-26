@@ -1056,7 +1056,8 @@ class InstagramAPI:
             "_uuid": self.uuid
         }
         self.two_factor = self.SendRequest('accounts/two_factor_login/', self.generateSignature(json.dumps(data)), True)   
-
+        self.login()
+        
     def getTotalFollowers(self, usernameId):
         followers = []
         next_max_id = ''
