@@ -1017,7 +1017,7 @@ class InstagramAPI:
         
         elif (response.status_code == 400) and ("two_factor_required" in self.LastJson) and (self.LastJson["two_factor_required"] == True):
             print(Style.BRIGHT + Fore.RED + "[Warning message] Two Factor in enabled. Sms code needed" + Style.RESET_ALL + '\n')
-            raise Exception('2FA Code required')
+            self.two_factor = True
             return False
         
         elif (response.status_code == 400) and ("error_type" in self.LastJson) and (self.LastJson['error_type'] == 'sms_code_validation_code_invalid'):
