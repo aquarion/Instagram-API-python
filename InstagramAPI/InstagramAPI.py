@@ -987,8 +987,8 @@ class InstagramAPI:
                     response = self.s.get(self.API_URL + endpoint, verify=verify)
                 break
             except Exception:
-                print(Style.BRIGHT + Fore.RED + 'Failed to establish a new connection: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 60 sec and retrying): ' + Style.RESET_ALL + '\n')
-                time.sleep(60)
+                print( "\n" + Style.BRIGHT + Fore.RED + 'Failed to establish a new connection: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 3 sec and retrying): ' + Style.RESET_ALL + '\n')
+                time.sleep(3)
                 try:
                     if (post is not None):
                         response = self.s.post(self.API_URL + endpoint, data=post, verify=verify)
