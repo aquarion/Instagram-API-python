@@ -12,25 +12,18 @@ import time
 import copy
 import math
 import sys
+import logging
 from datetime import datetime
 import calendar
 import os
 from requests_toolbelt import MultipartEncoder
-from colorama import Fore, init, Style
 
-# Init the colorama colours
-init()
+
+logger = logging.getLogger('InstagramAPI')
 
 # Turn off InsecureRequestWarning
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-def clear():
-    if os.name in ('nt','dos'):
-        os.system("cls")
-    elif os.name in ('linux','osx','posix'):
-        os.system("clear")
-    else:
-        print("\n") * 120 
 
 # The urllib library was split into other modules from Python 2 to Python 3
 if sys.version_info.major == 3:
@@ -88,8 +81,8 @@ class InstagramAPI:
         """
 
         if proxy is not None:
-            print(Style.BRIGHT + Fore.GREEN + 'Proxy has been set!' + Style.RESET_ALL + '\n')
-            print(Style.BRIGHT + Fore.GREEN + 'Testing proxy...' + Style.RESET_ALL + '\n'*3)
+            logger.info('Proxy has been set!')
+            logger.info('Testing proxy...'*3)
             proxies = {'http': proxy, 'https': proxy}
             self.s.proxies.update(proxies)
 
@@ -116,7 +109,7 @@ class InstagramAPI:
                     self.timelineFeed()
                     self.getv2Inbox()
                     self.getRecentActivity()
-                    print(Style.BRIGHT + Fore.GREEN + "Login successful!\n\n" + Style.RESET_ALL)
+                    logger.info("Login successful!")
                     return True
 
     def syncFeatures(self):
@@ -385,12 +378,12 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
+            logger.warning("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap") 
         else:
-            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
-            time.sleep(5)
-            clear()
+            logger.error("Sorry! Something went wrong, please make sure you've entered the correct information!" + '')
+            logger.error("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            
+            
             raise Exception('Wrong user Input')
             try:
                 self.LastResponse = response
@@ -446,12 +439,12 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
+            logger.warning("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap") 
         else:
-            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
-            time.sleep(5)
-            clear()
+            logger.error("Sorry! Something went wrong, please make sure you've entered the correct information!" + '')
+            logger.error("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            
+            
             raise Exception('Wrong user Input')
             try:
                 self.LastResponse = response
@@ -508,12 +501,12 @@ class InstagramAPI:
             self.LastJson = json.loads(response.text)
             return True
         elif response.status_code == 429:
-            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n") 
+            logger.warning("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap") 
         else:
-            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
-            time.sleep(5)
-            clear()
+            logger.error("Sorry! Something went wrong, please make sure you've entered the correct information!" + '')
+            logger.error("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            
+            
             raise Exception('Wrong user Input')
             try:
                 self.LastResponse = response
@@ -952,7 +945,7 @@ class InstagramAPI:
     def buildBody(self, bodies, boundary):
         body = u''
         for b in bodies:
-            body += u'--{boundary}\r\n'.format(boundary=boundary)
+            body += u'--{boundary}\r'.format(boundary=boundary)
             body += u'Content-Disposition: {b_type}; name="{b_name}"'.format(b_type=b['type'], b_name=b['name'])
             _filename = b.get('filename', None)
             _headers = b.get('headers', None)
@@ -961,8 +954,8 @@ class InstagramAPI:
                 _body += u'; filename="pending_media_{uid}.{ext}"'.format(uid=self.generateUploadId(), ext=ext)
             if _headers and isinstance(_headers, list):
                 for h in _headers:
-                    _body += u'\r\n{header}'.format(header=h)
-            body += u'\r\n\r\n{data}\r\n'.format(data=b['data'])
+                    _body += u'\r{header}'.format(header=h)
+            body += u'\r\r{data}\r'.format(data=b['data'])
         body += u'--{boundary}--'.format(boundary=boundary)
         return body
 
@@ -970,7 +963,7 @@ class InstagramAPI:
         verify = False  # don't show request warning
 
         if (not self.isLoggedIn and not login):
-            raise Exception("Not logged in!\n")
+            raise Exception("Not logged in!")
 
         self.s.headers.update({'Connection': 'close',
                                'Accept': '*/*',
@@ -987,7 +980,7 @@ class InstagramAPI:
                     response = self.s.get(self.API_URL + endpoint, verify=verify)
                 break
             except Exception:
-                print( "\n" + Style.BRIGHT + Fore.RED + 'Failed to establish a new connection: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 3 sec and retrying): ' + Style.RESET_ALL + '\n')
+                logger.warning( "" + 'Failed to establish a new connection: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (waiting 3 sec and retrying): ')
                 time.sleep(3)
                 try:
                     if (post is not None):
@@ -1010,34 +1003,34 @@ class InstagramAPI:
             
         elif (response.status_code == 500):
             response.raise_for_status()
-            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
+            logger.error("Sorry! Something went wrong, please make sure you've entered the correct information!" + '')
+            logger.error("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
             raise Exception('Wrong user Input')
             return False
         
         elif (response.status_code == 400) and ("two_factor_required" in self.LastJson) and (self.LastJson["two_factor_required"] == True):
-            print(Style.BRIGHT + Fore.RED + "[Warning message] Two Factor in enabled. Sms code needed" + Style.RESET_ALL + '\n')
+            logger.warning("[Warning message] Two Factor in enabled. Sms code needed")
             self.two_factor = True
             return False
         
         elif (response.status_code == 400) and ("error_type" in self.LastJson) and (self.LastJson['error_type'] == 'sms_code_validation_code_invalid'):
-            print(Style.BRIGHT + Fore.RED + "[Error] Something went wrong with the 2FA verification, did you input the correct code?" + Style.RESET_ALL + '\n')
+            logger.error("[Error] Something went wrong with the 2FA verification, did you input the correct code?")
             raise Exception('Wrong Code')
             return False
         
         elif response.status_code == 429:
-            print(Style.BRIGHT + Fore.RED + "[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap" + Style.RESET_ALL + "\n"*3) 
+            logger.warning("[Warning message] If your using this on an account other than @me_irl_bot or if your not using the recommended interval, make sure you know what you're doing. if you receive this more than once you might be spamming requests and should stop the bot asap") 
             return False
         
         else:
-            print(Style.BRIGHT + Fore.RED + "Sorry! Something went wrong, please make sure you've entered the correct information!" + '\n')
-            print("Remember that if you're account has 2FA or the targeted account is private, the bot will not work" + Style.RESET_ALL + '\n')
-            time.sleep(5)
-            clear()
+            logger.error("Sorry! Something went wrong, please make sure you've entered the correct information!" + '')
+            logger.error("Remember that if you're account has 2FA or the targeted account is private, the bot will not work")
+            
+            
             raise Exception('Wrong user Input')
             try:
                 if 'error_type' in self.LastJson and self.LastJson['error_type'] == 'sentry_block':
-                    print(Style.BRIGHT + Fore.RED + '[Error]: Your account/IP might be banned' + Style.RESET_ALL)
+                    logger.error('[Error]: Your account/IP might be banned')
                     raise SentryBlockException(self.LastJson['message'])
             except SentryBlockException:
                 raise
